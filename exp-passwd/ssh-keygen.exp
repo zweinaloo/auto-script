@@ -1,0 +1,26 @@
+#! /usr/bin/expect
+
+# 设置等待超时
+set timeout 10
+
+set USER_HOME [lindex $argv 0]
+
+# 新建文件夹
+spawn mkdir $USER_HOME/.ssh
+spawn rm $USER_HOME/.ssh/id_rsa
+
+# 
+spawn ssh-keygen -t rsa
+
+expect "/.ssh/id_rsa):"
+send "$USER_HOME/.ssh/id_rsa\r" 
+
+
+expect "Enter passphrase"  
+send "\r" 
+
+expect "Enter same passphrase again"
+send "\r"
+
+expect eof
+exit

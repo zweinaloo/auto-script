@@ -1,0 +1,18 @@
+#! /usr/bin/expect
+
+set timeout 10
+
+set USER        [lindex $argv 0]
+set IP          [lindex $argv 1]
+set PASSWORD    [lindex $argv 2]
+set CMD         [lindex $argv 3]
+ 
+spawn ssh $USER@$IP $CMD
+
+expect {
+    "(yes/no)?" { send "yes\r"; exp_continue}
+    "password:" { send "$PASSWORD\r" }
+}
+
+expect eof
+exit

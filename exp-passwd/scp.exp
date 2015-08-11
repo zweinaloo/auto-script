@@ -1,0 +1,20 @@
+#! /usr/bin/expect
+
+# 拷贝，没有设置超时
+set timeout -1
+
+set USER        [lindex $argv 0]
+set IP          [lindex $argv 1]
+set PASSWORD    [lindex $argv 2]
+set SOURCE      [lindex $argv 3]
+set DESTINATION [lindex $argv 4]
+
+spawn scp -r $SOURCE $USER@$IP:$DESTINATION
+
+expect {
+    "(yes/no)?" { send "yes\r"; exp_continue }
+    "password:" { send "$PASSWORD\r" }
+}
+
+expect eof
+exit
